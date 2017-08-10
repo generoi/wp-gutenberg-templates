@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<ruleset name="Roots">
+  <description>Roots Coding Standards</description>
+
+  <!-- Scan all files in directory -->
+  <file>.</file>
+
+  <!-- Scan only PHP files -->
+  <arg name="extensions" value="php"/>
+
+  <!-- Ignore Composer dependencies -->
+  <exclude-pattern>vendor/</exclude-pattern>
+
+  <!-- Show colors in console -->
+  <arg value="-colors"/>
+
+  <!-- Show sniff codes in all reports -->
+  <arg value="s"/>
+
+  <!-- Use PSR-2 as a base -->
+  <rule ref="PSR2"/>
+
+  <!-- We're not in control of contrib conventions. Also Timber uses underscore -->
+  <rule ref="PSR1.Methods.CamelCapsMethodName.NotCamelCaps">
+    <severity>0</severity>
+  </rule>
+
+  <!-- We might have some HTML in the code. -->
+  <rule ref="Generic.Files.LineLength.TooLong">
+    <severity>0</severity>
+  </rule>
+
+  <!-- Allow initing the plugin constructor -->
+  <rule ref="PSR1.Files.SideEffects.FoundWithSymbols">
+    <severity>0</severity>
+  </rule>
+</ruleset>

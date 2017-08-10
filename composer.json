@@ -1,0 +1,42 @@
+{
+  "name": "generoi/wp-plugin-boilerplate",
+  "type": "wordpress-plugin",
+  "license": "MIT",
+  "description": "A boilerplate WordPress plugin",
+  "homepage": "https://github.com/generoi/wp-plugin-boilerplate",
+  "authors": [
+    {
+      "name": "Oskar Schöldström",
+      "email": "public@oxy.fi"
+    }
+  ],
+  "keywords": [
+    "wordpress"
+  ],
+  "support": {
+    "issues": "https://github.com/generoi/wp-plugin-boilerplate/issues"
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://wpackagist.org"
+    }
+  ],
+  "require": {
+    "php": ">=5.6.0",
+    "composer/installers": "~1.0"
+  },
+  "require-dev": {
+    "squizlabs/php_codesniffer": "^2.5.1"
+  },
+  "scripts": {
+    "test": [
+      "vendor/bin/phpcs"
+    ]
+  },
+  "archive" : {
+    "exclude": [
+      ".gitignore"
+    ]
+  }
+}
