@@ -29,6 +29,11 @@
   "require-dev": {
     "squizlabs/php_codesniffer": "^2.5.1"
   },
+  "autoload": {
+    "psr-4": {
+      "GeneroWP\\PluginBoilerplate\\": "src/"
+    }
+  },
   "scripts": {
     "test": [
       "vendor/bin/phpcs"

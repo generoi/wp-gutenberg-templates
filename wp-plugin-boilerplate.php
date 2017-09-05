@@ -9,13 +9,13 @@ Author URI:         http://genero.fi/
 License:            MIT License
 License URI:        http://opensource.org/licenses/MIT
 */
-namespace GeneroWP;
+namespace GeneroWP\PluginBoilerplate;
 
 if (!defined('ABSPATH')) {
     exit;
 }
 
-class PluginBoilerplate
+class Plugin
 {
 
     private static $instance = null;
@@ -53,8 +53,18 @@ class PluginBoilerplate
 
     public static function activate()
     {
-        if (!is_plugin_active('gravityformsrestapi/restapi.php') && current_user_can('activate_plugins')) {
-            wp_die('Sorry, but this plugin requires the Gravity Forms REST API plugin to be installed and active. <br><a href="' . admin_url('plugins.php') . '">&laquo; Return to Plugins</a>');
+        foreach ([
+            'advanced-custom-fields-pro/acf.php' => 'Advanced Custom Fields PRO',
+            'timber-library/timber.php' => 'Timber Library',
+            // 'wp-timber-extended/wp-timber-extended.php' => 'WP Timber Extended',
+        ] as $plugin => $name) {
+            if (!is_plugin_active($plugin) && current_user_can('activate_plugins')) {
+                wp_die(sprintf(
+                    __('Sorry, but this plugin requires the %s plugin to be installed and active. <br><a href="%s">&laquo; Return to Plugins</a>', 'wp-hero'),
+                    $name,
+                    admin_url('plugins.php')
+                ));
+            }
         }
     }
 
@@ -63,4 +73,8 @@ class PluginBoilerplate
     }
 }
 
-PluginBoilerplate::get_instance()->init();
+if (file_exists($composer = __DIR__ . '/vendor/autoload.php')) {
+    require_once $composer;
+}
+
+Plugin::get_instance()->init();
