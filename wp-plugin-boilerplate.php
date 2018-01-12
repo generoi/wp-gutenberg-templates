@@ -20,6 +20,8 @@ class Plugin
 
     private static $instance = null;
     public $version = '1.0.0';
+    public $plugin_name = 'wp-plugin-boilerplate';
+    public $github_url = 'https://github.com/generoi/wp-plugin-boilerplate';
 
     public static function get_instance()
     {
@@ -29,11 +31,18 @@ class Plugin
         return self::$instance;
     }
 
-    public function init()
+    public function __construct()
     {
         register_activation_hook(__FILE__, [__CLASS__, 'activate']);
         register_deactivation_hook(__FILE__, [__CLASS__, 'deactivate']);
 
+        Puc_v4_Factory::buildUpdateChecker($this->github_url, __FILE__, $this->plugin_name);
+
+        add_action('plugins_loaded', [$this, 'init']);
+    }
+
+    public function init()
+    {
         add_action('wp_enqueue_scripts', [$this, 'register_assets']);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_assets']);
     }
@@ -77,4 +86,4 @@ if (file_exists($composer = __DIR__ . '/vendor/autoload.php')) {
     require_once $composer;
 }
 
-Plugin::get_instance()->init();
+Plugin::get_instance();
