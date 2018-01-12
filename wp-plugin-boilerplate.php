@@ -11,6 +11,8 @@ License URI:        http://opensource.org/licenses/MIT
 */
 namespace GeneroWP\PluginBoilerplate;
 
+use Puc_v4_Factory;
+
 if (!defined('ABSPATH')) {
     exit;
 }
