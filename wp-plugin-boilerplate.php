@@ -21,6 +21,8 @@ class Plugin
     private static $instance = null;
     public $version = '1.0.0';
     public $plugin_name = 'wp-plugin-boilerplate';
+    public $plugin_path;
+    public $plugin_url;
     public $github_url = 'https://github.com/generoi/wp-plugin-boilerplate';
 
     public static function get_instance()
@@ -33,6 +35,9 @@ class Plugin
 
     public function __construct()
     {
+        $this->plugin_path = plugin_dir_path(__FILE__);
+        $this->plugin_url = plugin_dir_url(__FILE__);
+
         register_activation_hook(__FILE__, [__CLASS__, 'activate']);
         register_deactivation_hook(__FILE__, [__CLASS__, 'deactivate']);
 
@@ -49,9 +54,8 @@ class Plugin
 
     public function register_assets()
     {
-        $path = plugin_dir_url(__FILE__);
-        wp_register_script('wp-plugin-boilerplate/js', $path . 'dist/main.js', ['jquery'], $this->version, true);
-        wp_register_style('wp-plugin-boilerplate/css', $path . 'dist/main.css', [], $this->version);
+        wp_register_script('wp-plugin-boilerplate/js', $this->plugin_url . 'dist/main.js', ['jquery'], $this->version, true);
+        wp_register_style('wp-plugin-boilerplate/css', $this->plugin_url . 'dist/main.css', [], $this->version);
     }
 
     public function enqueue_assets()
