@@ -54,6 +54,10 @@ class RoboFile extends \Robo\Tasks
                 $this->taskPlaceholderReplace($this->namespace)->with($namespace)->in($files)->run();
                 $this->taskPlaceholderReplace($this->description)->with($description)->in($files)->run();
             }
+
+            if (in_array('./composer.json', $files)) {
+                $this->taskComposerDumpAutoload()->run();
+            }
         }
     }
 }
