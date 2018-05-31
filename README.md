@@ -1,6 +1,6 @@
-# wp-plugin-boilerplate
+# wp-gutenberg-boilerplate
 
-> A wordpress boilerplate plugin with which you can write ES6 JavaScript and SASS.
+> A wordpress gutenberg boilerplate block
 
 ## Requirements
 
@@ -37,8 +37,5 @@ Build assets
     # Minified assets which are to be committed to git
     npm run build
 
-    # Development assets while developing the plugin
-    npm run build:development
-
     # Watch for changes and re-compile while developing the plugin
-    npm run watch
+    npm run start

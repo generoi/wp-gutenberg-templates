@@ -1,16 +1,15 @@
 {
-  "name": "wp-plugin-boilerplate",
+  "name": "wp-gutenberg-boilerplate",
   "version": "1.0.0",
-  "description": "A boilerplate WordPress plugin",
-  "main": "assets/scripts/plugin.js",
+  "description": "A boilerplate WordPress Gutenberg block",
+  "main": "src/blocks.js",
   "scripts": {
-    "watch": "NODE_ENV=development webpack --hide-modules --watch --config node_modules/laravel-mix/setup/webpack.config.js",
-    "build": "npm run -s build:production",
-    "build:development": "NODE_ENV=development webpack --progress --config node_modules/laravel-mix/setup/webpack.config.js",
-    "build:production": "NODE_ENV=production webpack --progress --config node_modules/laravel-mix/setup/webpack.config.js",
+    "start": "cgb-scripts start",
+    "build": "cgb-scripts build",
+    "eject": "cgb-scripts eject",
     "lint": "npm run -s lint:scripts && npm run -s lint:styles",
-    "lint:scripts": "eslint assets/scripts",
-    "lint:styles": "stylelint assets/styles/**/*.{css,scss}",
+    "lint:scripts": "eslint src",
+    "lint:styles": "stylelint src/**/*.{css,scss}",
     "test": "npm run -s lint && composer test",
     "precommit": "npm run test"
   },
@@ -22,7 +21,10 @@
   ],
   "eslintConfig": {
     "root": true,
-    "extends": "eslint:recommended",
+    "extends": [
+      "eslint:recommended",
+      "plugin:react/recommended"
+    ],
     "globals": {
       "wp": true,
       "Foundation": true
@@ -56,6 +58,9 @@
     },
     "rules": {
       "no-console": "off",
+      "react/display-name": "off",
+      "react/react-in-jsx-scope": "off",
+      "react/prop-types": "off",
       "comma-dangle": [
         "error",
         {
@@ -139,8 +144,8 @@
     "eslint": "^4.15.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-prettier": "^2.4.0",
+    "cgb-scripts": "1.9.1",
     "husky": "^0.14.3",
-    "laravel-mix": "^1.7.2",
     "prettier": "^1.10.2",
     "stylelint": "~7.12",
     "stylelint-config-standard": "~16.0",

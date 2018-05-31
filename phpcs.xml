@@ -10,6 +10,7 @@
 
   <!-- Ignore Composer dependencies -->
   <exclude-pattern>vendor/</exclude-pattern>
+  <exclude-pattern>node_modules/</exclude-pattern>
 
   <!-- Show colors in console -->
   <arg value="-colors"/>
@@ -34,4 +35,9 @@
   <rule ref="PSR1.Files.SideEffects.FoundWithSymbols">
     <severity>0</severity>
   </rule>
+
+  <!-- Ignore indentation rules -->
+    <rule ref="Generic.WhiteSpace.ScopeIndent">
+      <exclude-pattern>views/</exclude-pattern>
+    </rule>
 </ruleset>

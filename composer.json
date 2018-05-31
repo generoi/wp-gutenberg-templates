@@ -1,9 +1,9 @@
 {
-  "name": "generoi/wp-plugin-boilerplate",
+  "name": "generoi/wp-gutenberg-boilerplate",
   "type": "wordpress-plugin",
   "license": "MIT",
-  "description": "A boilerplate WordPress plugin",
-  "homepage": "https://github.com/generoi/wp-plugin-boilerplate",
+  "description": "A boilerplate WordPress Gutenberg plugin",
+  "homepage": "https://github.com/generoi/wp-gutenberg-boilerplate",
   "authors": [
     {
       "name": "Oskar Schöldström",
@@ -11,10 +11,11 @@
     }
   ],
   "keywords": [
-    "wordpress"
+    "wordpress",
+    "gutenberg"
   ],
   "support": {
-    "issues": "https://github.com/generoi/wp-plugin-boilerplate/issues"
+    "issues": "https://github.com/generoi/wp-gutenberg-boilerplate/issues"
   },
   "repositories": [
     {
@@ -32,7 +33,7 @@
   },
   "autoload": {
     "psr-4": {
-      "GeneroWP\\PluginBoilerplate\\": "src/"
+      "GeneroWP\\BlockBoilerplate\\": "src/"
     }
   },
   "scripts": {
