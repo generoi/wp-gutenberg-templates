@@ -21,6 +21,10 @@
     {
       "type": "composer",
       "url": "https://wpackagist.org"
+    },
+    {
+      "type": "composer",
+      "url": "https://packagist.minasithil.genero.fi/"
     }
   ],
   "require": {
@@ -29,7 +33,9 @@
     "yahnis-elsts/plugin-update-checker": "^4.4"
   },
   "require-dev": {
-    "squizlabs/php_codesniffer": "^2.5.1"
+    "squizlabs/php_codesniffer": "^2.5.1",
+    "consolidation/robo": "~1.3.0",
+    "generoi/robo-genero": "dev-master"
   },
   "autoload": {
     "psr-4": {
