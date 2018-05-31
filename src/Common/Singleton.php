@@ -1,6 +1,6 @@
 <?php
 
-namespace GeneroWP\BlockBoilerplate;
+namespace GeneroWP\BlockBoilerplate\Common;
 
 trait Singleton
 {

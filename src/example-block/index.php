@@ -7,7 +7,7 @@ use GeneroWP\BlockBoilerplate\Common;
 class ExampleBlock
 {
     use Common\Singleton;
-    use Common\Twig;
+    use Common\Templating;
 
     public function __construct()
     {

@@ -12,8 +12,6 @@ License URI:        http://opensource.org/licenses/MIT
 namespace GeneroWP\BlockBoilerplate;
 
 use Puc_v4_Factory;
-use Common\Singleton;
-use Common\EnqueueFilemtime;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -25,8 +23,8 @@ if (file_exists($composer = __DIR__ . '/vendor/autoload.php')) {
 
 class Plugin
 {
-    use Singleton;
-    use EnqueueFilemtime;
+    use Common\Singleton;
+    use Common\EnqueueFilemtime;
 
     public $version = '1.0.0';
     public $plugin_name = 'wp-gutenberg-boilerplate';
