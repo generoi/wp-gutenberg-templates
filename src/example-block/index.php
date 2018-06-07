@@ -2,12 +2,13 @@
 
 namespace GeneroWP\BlockBoilerplate\example_block;
 
-use GeneroWP\BlockBoilerplate\Common;
+use GeneroWP\Common\Singleton;
+use GeneroWP\Common\Templating;
 
 class ExampleBlock
 {
-    use Common\Singleton;
-    use Common\Templating;
+    use Singleton;
+    use Templating;
 
     public function __construct()
     {
@@ -24,8 +25,8 @@ class ExampleBlock
 
     public function render($attributes)
     {
-        return $this->template('example-block', $attributes);
+        return $this->template('gutenberg', 'views/example-block.php', $attributes);
     }
 }
 
-ExampleBlock::get_instance();
+ExampleBlock::getInstance();

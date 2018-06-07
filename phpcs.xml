@@ -41,6 +41,11 @@
     <exclude-pattern>views/</exclude-pattern>
   </rule>
 
+  <!-- Allow more compact logic in views -->
+  <rule ref="Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace">
+    <exclude-pattern>views/</exclude-pattern>
+  </rule>
+
   <!-- Ignore missing namespace -->
   <rule ref="PSR1.Classes.ClassDeclaration.MissingNamespace">
     <exclude-pattern>RoboFile.php</exclude-pattern>
