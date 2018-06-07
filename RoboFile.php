@@ -13,17 +13,20 @@ class RoboFile extends \Robo\Tasks
     public $name = 'Gutenberg Plugin Boilerplate';
     public $namespace = 'BlockBoilerplate';
     public $description = 'A boilerplate WordPress Gutenberg block';
+    public $blockName = 'example-block';
 
     public function rename($machineName = null, $options = [
         'force' => false,
         'namespace' => null,
         'description' => null,
         'name' => null,
+        'blockName' => null,
     ])
     {
         $name = $options['name'];
         $namespace = $options['namespace'];
         $description = $options['description'];
+        $blockName = $options['blockName'];
         if (empty($machineName)) {
             $machineName = $this->askDefault('Machine name', $this->machineName);
         }
@@ -36,8 +39,11 @@ class RoboFile extends \Robo\Tasks
         if (empty($description)) {
             $description = $this->askDefault('Description', $this->description);
         }
+        if (empty($blockName)) {
+            $blockName = $this->askDefault('Block name', $this->blockName);
+        }
 
-        $result = $this->taskPlaceholderFind("$this->machineName|$this->name|$this->namespace|$this->description")
+        $result = $this->taskPlaceholderFind("$this->machineName|$this->name|$this->namespace|$this->description|$this->blockName")
             ->directories(['src'])
             ->io($this->io())
             ->run();
@@ -53,11 +59,14 @@ class RoboFile extends \Robo\Tasks
                 $this->taskPlaceholderReplace($this->name)->with($name)->in($files)->run();
                 $this->taskPlaceholderReplace($this->namespace)->with($namespace)->in($files)->run();
                 $this->taskPlaceholderReplace($this->description)->with($description)->in($files)->run();
+                $this->taskPlaceholderReplace($this->blockName)->with($blockName)->in($files)->run();
             }
 
             if (in_array('./composer.json', $files)) {
                 $this->taskComposerDumpAutoload()->run();
             }
         }
+
+        $this->_rename("src/{$this->blockName}", "src/{$blockName}");
     }
 }
