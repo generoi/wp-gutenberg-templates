@@ -2,7 +2,7 @@
   "name": "generoi/wp-gutenberg-boilerplate",
   "type": "wordpress-plugin",
   "license": "MIT",
-  "description": "A boilerplate WordPress Gutenberg plugin",
+  "description": "A boilerplate WordPress Gutenberg block",
   "homepage": "https://github.com/generoi/wp-gutenberg-boilerplate",
   "authors": [
     {

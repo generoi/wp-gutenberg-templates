@@ -1,6 +1,6 @@
 # wp-gutenberg-boilerplate
 
-> A wordpress gutenberg boilerplate block
+> A boilerplate WordPress Gutenberg block
 
 ## Requirements
 
