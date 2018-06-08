@@ -10,7 +10,6 @@
 
   <!-- Ignore Composer dependencies -->
   <exclude-pattern>vendor/</exclude-pattern>
-  <exclude-pattern>node_modules/</exclude-pattern>
 
   <!-- Show colors in console -->
   <arg value="-colors"/>
@@ -34,16 +33,6 @@
   <!-- Allow initing the plugin constructor -->
   <rule ref="PSR1.Files.SideEffects.FoundWithSymbols">
     <severity>0</severity>
-  </rule>
-
-  <!-- Ignore indentation rules -->
-  <rule ref="Generic.WhiteSpace.ScopeIndent">
-    <exclude-pattern>views/</exclude-pattern>
-  </rule>
-
-  <!-- Allow more compact logic in views -->
-  <rule ref="Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace">
-    <exclude-pattern>views/</exclude-pattern>
   </rule>
 
   <!-- Ignore missing namespace -->

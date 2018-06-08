@@ -1,21 +1,20 @@
 {
-  "name": "generoi/wp-gutenberg-boilerplate",
+  "name": "generoi/wp-gutenberg-templates",
   "type": "wordpress-plugin",
   "license": "MIT",
-  "description": "A boilerplate WordPress Gutenberg block",
-  "homepage": "https://github.com/generoi/wp-gutenberg-boilerplate",
+  "description": "Add page template support to Gutenberg",
+  "homepage": "https://github.com/generoi/wp-gutenberg-templates",
   "authors": [
     {
       "name": "Oskar Schöldström",
-      "email": "public@oxy.fi"
-    }
+      "email": "public@oxy.fi" }
   ],
   "keywords": [
     "wordpress",
     "gutenberg"
   ],
   "support": {
-    "issues": "https://github.com/generoi/wp-gutenberg-boilerplate/issues"
+    "issues": "https://github.com/generoi/wp-gutenberg-templates/issues"
   },
   "repositories": [
     {
@@ -40,7 +39,7 @@
   },
   "autoload": {
     "psr-4": {
-      "GeneroWP\\BlockBoilerplate\\": "src/"
+      "GeneroWP\\Gutenberg\\Templates\\": "src/"
     }
   },
   "scripts": {

@@ -1,6 +1,6 @@
-# wp-gutenberg-boilerplate
+# wp-gutenberg-templates
 
-> A boilerplate WordPress Gutenberg block
+> Add page template support to Gutenberg
 
 ## Requirements
 
