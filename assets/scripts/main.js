@@ -4,7 +4,7 @@ const { __ } = wp.i18n
 const apiRequest = wp.apiRequest;
 const { synchronizeBlocksWithTemplate, doBlocksMatchTemplate } = wp.blocks;
 
-const SYNCHRONIZE_TEMPLATE_NOTICE_ID = 'SHARED_BLOCK_NOTICE_ID';
+const SYNCHRONIZE_TEMPLATE_NOTICE_ID = 'SYNCHRONIZE_TEMPLATE_NOTICE_ID';
 
 class GutenbergTemplates {
   constructor() {
