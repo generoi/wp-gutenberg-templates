@@ -3,6 +3,16 @@
 function register_gutenberg_template($template_name, $args = [])
 {
     global $wp_gutenberg_templates;
+
+    $defaults = [
+        'post_type' => 'page',
+        'name' => false,
+        'template' => [],
+        'template_file' => false,
+        'template_lock' => false,
+    ];
+    $args = array_merge($defaults, $args);
+
     $post_type = $args['post_type'];
 
     if (!is_array($wp_gutenberg_templates)) {

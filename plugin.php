@@ -53,7 +53,6 @@ class Plugin
     public function init()
     {
         add_filter('theme_templates', [$this, 'templates'], 100, 4);
-        add_filter('page_template_hierarchy', [$this, 'templateHierarchy'], 0);
         add_action('rest_api_init', [$this, 'restApiEndpoints']);
         add_action('enqueue_block_editor_assets', [$this, 'block_editor_assets']);
     }
@@ -81,7 +80,7 @@ class Plugin
 
     public function validateTemplateFile(string $template)
     {
-        return !!preg_match('/^[a-zA-Z0-9-_]+\.php$/', $template);
+        return !!preg_match('/^[a-zA-Z0-9-_\/]+\.php$/', $template);
     }
 
     public function getTemplate(WP_REST_Request $request)
@@ -95,7 +94,7 @@ class Plugin
 
     public function block_editor_assets()
     {
-        $this->enqueueScript("{$this->plugin_name}/js", 'dist/main.js', ['wp-data', 'wp-blocks']);
+        $this->enqueueScript("{$this->plugin_name}/js", 'dist/main.js', ['wp-data', 'wp-blocks', 'wp-components', 'wp-i18n']);
     }
 }
 

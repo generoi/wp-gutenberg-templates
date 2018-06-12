@@ -2,22 +2,24 @@
 
 > Add page template support to Gutenberg
 
-## Requirements
-
-_Does the plugin have any requirements?_
 
 ## Features
 
-_A list of features_.
+Allow switching the Gutenberg block template based on the page template attribute.
 
 ## API
 
-_Any hooks exposed?_
-
 ```php
-// Load recaptcha script.
-add_filter('gravityforms-timber/options', function ($options) {
-  $options['recaptcha'] = true;
+add_action('init', function () {
+    register_gutenberg_template('foobar', [
+        'post_type' => 'page',
+        'name' => __('Foobar'),
+        'template' => [
+            ['genero/banner'],
+            ['core/paragraph'],
+        ],
+        'template_lock' => 'all',
+    ]);
 });
 ```
 
@@ -38,4 +40,4 @@ Build assets
     npm run build
 
     # Watch for changes and re-compile while developing the plugin
-    npm run start
+    npm run watch

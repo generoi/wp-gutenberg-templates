@@ -22,7 +22,10 @@
   ],
   "eslintConfig": {
     "root": true,
-    "extends": "eslint:recommended",
+    "extends": [
+      "eslint:recommended",
+      "plugin:react/recommended"
+    ],
     "globals": {
       "wp": true,
       "Foundation": true
@@ -56,6 +59,10 @@
     },
     "rules": {
       "no-console": "off",
+      "react/display-name": "off",
+      "react/react-in-jsx-scope": "off",
+      "react/no-find-dom-node": "off",
+      "react/prop-types": "off",
       "comma-dangle": [
         "error",
         {
@@ -122,6 +129,52 @@
       "scss/at-if-closing-brace-space-after": "always-intermediate"
     }
   },
+  "babel": {
+    "presets": [
+      [
+        "env",
+        {
+          "modules": false,
+          "targets": {
+            "browsers": [
+              "last 2 Chrome versions",
+              "last 2 Firefox versions",
+              "last 2 Safari versions",
+              "last 2 iOS versions",
+              "last 1 Android version",
+              "last 1 ChromeAndroid version",
+              "ie 11"
+            ]
+          }
+        }
+      ]
+    ],
+    "plugins": [
+      [
+        "transform-object-rest-spread"
+      ],
+      [
+        "transform-object-rest-spread",
+        {
+          "useBuiltIns": true
+        }
+      ],
+      [
+        "transform-react-jsx",
+        {
+          "pragma": "wp.element.createElement"
+        }
+      ],
+      [
+        "transform-runtime",
+        {
+          "helpers": false,
+          "polyfill": false,
+          "regenerator": true
+        }
+      ]
+    ]
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/generoi/wp-plugin-boilerplate.git"
@@ -136,9 +189,12 @@
     "node": ">= 6.9.4"
   },
   "devDependencies": {
+    "babel-preset-react": "^6.24.1",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
     "eslint": "^4.15.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-prettier": "^2.4.0",
+    "eslint-plugin-react": "^7.9.1",
     "husky": "^0.14.3",
     "laravel-mix": "^1.7.2",
     "prettier": "^1.10.2",
