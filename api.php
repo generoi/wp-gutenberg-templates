@@ -32,7 +32,7 @@ function register_gutenberg_template($template_name, $args = [])
 function get_gutenberg_templates($post_type)
 {
     global $wp_gutenberg_templates;
-    return $wp_gutenberg_templates[$post_type] ?? null;
+    return $wp_gutenberg_templates[$post_type] ?? [];
 }
 
 function get_gutenberg_template($template)
