@@ -10,8 +10,14 @@ class GutenbergTemplates {
   constructor() {
     this.previousTemplate = null;
     this.template = null;
+    this.initialLoad = true;
 
-    subscribe(this.subscribe.bind(this));
+    subscribe(() => {
+      this.initialLoad = false;
+      this.subscribe();
+    });
+    // Trigger initial load
+    this.subscribe();
   }
 
   subscribe() {
@@ -76,7 +82,7 @@ class GutenbergTemplates {
   }
 
   wasDefaultTemplate() {
-    return this.previousTemplate === '';
+    return this.previousTemplate === '' && !this.initialLoad;
   }
 }
 
