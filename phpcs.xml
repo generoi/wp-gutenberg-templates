@@ -10,6 +10,7 @@
 
   <!-- Ignore Composer dependencies -->
   <exclude-pattern>vendor/</exclude-pattern>
+  <exclude-pattern>languages/</exclude-pattern>
 
   <!-- Show colors in console -->
   <arg value="-colors"/>

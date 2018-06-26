@@ -55,6 +55,7 @@ class Plugin
         add_filter('theme_templates', [$this, 'templates'], 100, 4);
         add_action('rest_api_init', [$this, 'restApiEndpoints']);
         add_action('enqueue_block_editor_assets', [$this, 'block_editor_assets']);
+        add_action('init', [$this, 'load_textdomain']);
     }
 
     public function templates($templates, $theme, $post, $post_type)
@@ -94,7 +95,16 @@ class Plugin
 
     public function block_editor_assets()
     {
-        $this->enqueueScript("{$this->plugin_name}/js", 'dist/main.js', ['wp-data', 'wp-blocks', 'wp-components', 'wp-i18n']);
+        $this->enqueueScript("{$this->plugin_name}/js", 'dist/index.js', ['wp-data', 'wp-blocks', 'wp-components', 'wp-i18n', 'wp-api-request']);
+        $this->localizeScript("{$this->plugin_name}/js", gutenberg_get_jed_locale_data($this->plugin_name));
+    }
+
+    public function load_textdomain()
+    {
+        // WP Performance Pack
+        include __DIR__ . '/languages/javascript.php';
+
+        load_plugin_textdomain($this->plugin_name, false, dirname(plugin_basename(__FILE__)) . '/languages');
     }
 }
 

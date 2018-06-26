@@ -1,8 +1,8 @@
-const { select, subscribe, dispatch } = wp.data;
-const { Button } = wp.components;
-const { __ } = wp.i18n
-const apiRequest = wp.apiRequest;
-const { synchronizeBlocksWithTemplate, doBlocksMatchTemplate } = wp.blocks;
+import { select, subscribe, dispatch } from '@wordpress/data';
+import { Button } from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
+import apiRequest from '@wordpress/apiRequest';
+import { synchronizeBlocksWithTemplate, doBlocksMatchTemplate } from '@wordpress/blocks';
 
 const SYNCHRONIZE_TEMPLATE_NOTICE_ID = 'SYNCHRONIZE_TEMPLATE_NOTICE_ID';
 
@@ -53,7 +53,7 @@ class GutenbergTemplates {
       };
 
       const confirmSynchronization = () => {
-        if (window.confirm(__('Resetting the template may result in loss of content, do you want to continue?'))) {
+        if (window.confirm(__('Resetting the template may result in loss of content, do you want to continue?', 'wp-gutenberg-templates'))) {
           synchronizeTemplate();
         }
         removeNotice(SYNCHRONIZE_TEMPLATE_NOTICE_ID);
@@ -64,10 +64,10 @@ class GutenbergTemplates {
       } else if (this.wasDefaultTemplate()) {
         createWarningNotice(
           <div className="editor-template-validation-notice">
-            <p>{ __('The content of your post doesn\'t match the assigned template.') }</p>
+            <p>{ __('The content of your post doesn\'t match the assigned template.', 'wp-gutenberg-templates') }</p>
             <div>
-              <Button isDefault onClick={ denySynchronization }>{ __('Keep it as is') }</Button>
-              <Button onClick={ confirmSynchronization } isPrimary>{ __('Reset the template') }</Button>
+              <Button isDefault onClick={ denySynchronization }>{ __('Keep it as is', 'wp-gutenberg-templates') }</Button>
+              <Button onClick={ confirmSynchronization } isPrimary>{ __('Reset the template', 'wp-gutenberg-templates') }</Button>
             </div>
           </div>
         , { isDismissible: false, id: SYNCHRONIZE_TEMPLATE_NOTICE_ID });

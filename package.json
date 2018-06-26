@@ -2,17 +2,22 @@
   "name": "wp-gutenberg-templates",
   "version": "1.0.0",
   "description": "Add page template support to Gutenberg",
-  "main": "assets/scripts/plugin.js",
+  "main": "src/index.js",
   "scripts": {
-    "watch": "NODE_ENV=development webpack --hide-modules --watch --config node_modules/laravel-mix/setup/webpack.config.js",
-    "build": "npm run -s build:production",
-    "build:development": "NODE_ENV=development webpack --progress --config node_modules/laravel-mix/setup/webpack.config.js",
-    "build:production": "NODE_ENV=production webpack --progress --config node_modules/laravel-mix/setup/webpack.config.js",
-    "lint": "npm run -s lint:scripts",
-    "lint:scripts": "eslint assets/scripts",
-    "lint:styles": "stylelint assets/styles/**/*.{css,scss}",
+    "dev": "NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch": "NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "hot": "NODE_ENV=development webpack-dev-server --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "production": "NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "lint": "npm run -s lint:scripts && npm run -s lint:styles",
+    "lint:scripts": "eslint *.js src",
+    "lint:styles": "stylelint src/**/*.{css,scss}",
     "test": "npm run -s lint && composer test",
-    "precommit": "npm run test"
+    "precommit": "npm run test",
+    "lang": "npm run lang:pot && npm run lang:mo",
+    "lang:pot": "npm run lang:js-php && npm run lang:pot:php",
+    "lang:pot:php": "wp-pot --src '*.php' --src 'languages/*.php' --team 'Genero <developers@genero.fi>' --package 'wp-gutenberg-templates' >| languages/wp-gutenberg-templates.pot",
+    "lang:js-php": "pot-to-php languages/javascript.pot languages/javascript.php wp-gutenberg-templates",
+    "lang:mo": "for file in `find . -name \"*.po\"` ; do msgfmt -o ${file/.po/.mo} $file; done"
   },
   "browserslist": [
     "last 2 versions",
@@ -23,186 +28,39 @@
   "eslintConfig": {
     "root": true,
     "extends": [
-      "eslint:recommended",
-      "plugin:react/recommended"
-    ],
-    "globals": {
-      "wp": true,
-      "Foundation": true
-    },
-    "env": {
-      "node": true,
-      "es6": true,
-      "amd": true,
-      "browser": true,
-      "jquery": true
-    },
-    "parserOptions": {
-      "ecmaFeatures": {
-        "globalReturn": true,
-        "generators": false,
-        "objectLiteralDuplicateProperties": false,
-        "experimentalObjectRestSpread": true
-      },
-      "ecmaVersion": 2017,
-      "sourceType": "module"
-    },
-    "plugins": [
-      "import"
-    ],
-    "settings": {
-      "import/core-modules": [],
-      "import/ignore": [
-        "node_modules",
-        "\\.(coffee|scss|css|less|hbs|svg|json)$"
-      ]
-    },
-    "rules": {
-      "no-console": "off",
-      "react/display-name": "off",
-      "react/react-in-jsx-scope": "off",
-      "react/no-find-dom-node": "off",
-      "react/prop-types": "off",
-      "comma-dangle": [
-        "error",
-        {
-          "arrays": "always-multiline",
-          "objects": "always-multiline",
-          "imports": "always-multiline",
-          "exports": "always-multiline",
-          "functions": "ignore"
-        }
-      ],
-      "new-cap": [
-        "error",
-        {
-          "newIsCap": true,
-          "newIsCapExceptions": [],
-          "capIsNew": false,
-          "capIsNewExceptions": [
-            "Immutable.Map",
-            "Immutable.Set",
-            "Immutable.List"
-          ],
-          "properties": false
-        }
-      ]
-    }
+      "plugin:genero/recommended",
+      "plugin:genero/gutenberg"
+    ]
   },
   "stylelint": {
-    "extends": "stylelint-config-standard",
-    "plugins": [
-      "stylelint-scss"
-    ],
-    "rules": {
-      "no-empty-source": null,
-      "at-rule-empty-line-before": [
-        "always",
-        {
-          "ignoreAtRules": [
-            "else"
-          ],
-          "ignore": [
-            "after-comment"
-          ],
-          "except": [
-            "first-nested",
-            "blockless-after-same-name-blockless"
-          ]
-        }
-      ],
-      "block-opening-brace-space-before": "always",
-      "block-closing-brace-newline-after": [
-        "always",
-        {
-          "ignoreAtRules": [
-            "if",
-            "else"
-          ]
-        }
-      ],
-      "at-rule-name-space-after": "always",
-      "scss/at-else-closing-brace-newline-after": "always-last-in-chain",
-      "scss/at-else-closing-brace-space-after": "always-intermediate",
-      "scss/at-else-empty-line-before": "never",
-      "scss/at-if-closing-brace-newline-after": "always-last-in-chain",
-      "scss/at-if-closing-brace-space-after": "always-intermediate"
-    }
-  },
-  "babel": {
-    "presets": [
-      [
-        "env",
-        {
-          "modules": false,
-          "targets": {
-            "browsers": [
-              "last 2 Chrome versions",
-              "last 2 Firefox versions",
-              "last 2 Safari versions",
-              "last 2 iOS versions",
-              "last 1 Android version",
-              "last 1 ChromeAndroid version",
-              "ie 11"
-            ]
-          }
-        }
-      ]
-    ],
-    "plugins": [
-      [
-        "transform-object-rest-spread"
-      ],
-      [
-        "transform-object-rest-spread",
-        {
-          "useBuiltIns": true
-        }
-      ],
-      [
-        "transform-react-jsx",
-        {
-          "pragma": "wp.element.createElement"
-        }
-      ],
-      [
-        "transform-runtime",
-        {
-          "helpers": false,
-          "polyfill": false,
-          "regenerator": true
-        }
-      ]
-    ]
+    "extends": "stylelint-config-genero"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/generoi/wp-plugin-boilerplate.git"
+    "url": "git+https://github.com/generoi/wp-plugin-templates.git"
   },
   "author": "Oskar Schöldström",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/generoi/wp-plugin-boilerplate/issues"
+    "url": "https://github.com/generoi/wp-plugin-templates/issues"
   },
-  "homepage": "https://github.com/generoi/wp-plugin-boilerplate#readme",
+  "homepage": "https://github.com/generoi/wp-plugin-templates#readme",
   "engines": {
     "node": ">= 6.9.4"
   },
   "devDependencies": {
+    "@wordpress/babel-plugin-makepot": "^1.0.1",
+    "@wordpress/i18n": "^1.1.1",
     "babel-preset-react": "^6.24.1",
-    "babel-plugin-transform-react-jsx": "^6.24.1",
-    "eslint": "^4.15.0",
-    "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-prettier": "^2.4.0",
-    "eslint-plugin-react": "^7.9.1",
+    "eslint": "^4.19.0",
+    "eslint-plugin-genero": "git+https://github.com/generoi/eslint-plugin-genero.git",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-react": "^7.10.0",
     "husky": "^0.14.3",
-    "laravel-mix": "^1.7.2",
-    "prettier": "^1.10.2",
-    "stylelint": "~7.12",
-    "stylelint-config-standard": "~16.0",
-    "stylelint-scss": "^1.4.4"
+    "laravel-mix": "^2.1.11",
+    "stylelint": "^9.3.0",
+    "stylelint-config-genero": "git+https://github.com/generoi/stylelint-config-genero.git",
+    "wp-pot-cli": "^1.2.1"
   },
-  "dependencies": {
-    "es6-object-assign": "^1.1.0"
-  }
+  "dependencies": {}
 }
