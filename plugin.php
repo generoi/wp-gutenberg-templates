@@ -95,8 +95,8 @@ class Plugin
 
     public function block_editor_assets()
     {
-        $this->enqueueScript("{$this->plugin_name}/js", 'dist/index.js', ['wp-data', 'wp-blocks', 'wp-components', 'wp-i18n', 'wp-api-request']);
-        $this->localizeScript("{$this->plugin_name}/js", gutenberg_get_jed_locale_data($this->plugin_name));
+        $this->enqueueScript("{$this->plugin_name}/js", 'dist/index.js', ['wp-editor', 'wp-data', 'wp-blocks', 'wp-components', 'wp-i18n', 'wp-api-request']);
+        wp_set_script_translations("{$this->plugin_name}/js", $this->plugin_name);
     }
 
     public function load_textdomain()
