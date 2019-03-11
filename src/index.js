@@ -37,7 +37,7 @@ class GutenbergTemplates {
   }
 
   changeTemplate() {
-    const { resetBlocks, editPost, updateEditorSettings } = dispatch('core/editor');
+    const { resetBlocks, createWarningNotice, editPost, removeNotice, updateEditorSettings } = dispatch('core/editor');
     const currentBlocks = select('core/editor').getBlocks();
 
     apiRequest({ path: '/gutenberg-templates/v1/template', data: {template: this.template} }).then(config => {
@@ -58,12 +58,25 @@ class GutenbergTemplates {
         removeNotice(SYNCHRONIZE_TEMPLATE_NOTICE_ID);
       };
 
+      const confirmSynchronization = () => {
+        if (window.confirm(__('Resetting the template may result in loss of content, do you want to continue?', 'wp-gutenberg-templates'))) {
+          synchronizeTemplate();
+        }
+        removeNotice(SYNCHRONIZE_TEMPLATE_NOTICE_ID);
+      };
+
       if (isValidTemplate) {
         synchronizeTemplate();
       } else if (this.wasDefaultTemplate()) {
-        if (window.confirm(__('The content of your post doesn\'t match the assigned template. Resetting the template may result in loss of content, do you want to continue?', 'wp-gutenberg-templates'))) {
-          synchronizeTemplate();
-        }
+        createWarningNotice(
+          <div className="editor-template-validation-notice">
+            <p>{ __('The content of your post doesn\'t match the assigned template.', 'wp-gutenberg-templates') }</p>
+            <div>
+              <Button isDefault onClick={ denySynchronization }>{ __('Keep it as is', 'wp-gutenberg-templates') }</Button>
+              <Button onClick={ confirmSynchronization } isPrimary>{ __('Reset the template', 'wp-gutenberg-templates') }</Button>
+            </div>
+          </div>
+        , { isDismissible: false, id: SYNCHRONIZE_TEMPLATE_NOTICE_ID });
       }
     });
   }
