@@ -37,7 +37,8 @@ class GutenbergTemplates {
   }
 
   changeTemplate() {
-    const { resetBlocks, createWarningNotice, editPost, removeNotice, updateEditorSettings } = dispatch('core/editor');
+    const { resetBlocks, editPost, updateEditorSettings } = dispatch('core/editor');
+    const { createWarningNotice, removeNotice } = dispatch('core/notices');
     const currentBlocks = select('core/editor').getBlocks();
 
     apiRequest({ path: '/gutenberg-templates/v1/template', data: {template: this.template} }).then(config => {
@@ -69,14 +70,16 @@ class GutenbergTemplates {
         synchronizeTemplate();
       } else if (this.wasDefaultTemplate()) {
         createWarningNotice(
-          <div className="editor-template-validation-notice">
-            <p>{ __('The content of your post doesn\'t match the assigned template.', 'wp-gutenberg-templates') }</p>
-            <div>
-              <Button isDefault onClick={ denySynchronization }>{ __('Keep it as is', 'wp-gutenberg-templates') }</Button>
-              <Button onClick={ confirmSynchronization } isPrimary>{ __('Reset the template', 'wp-gutenberg-templates') }</Button>
-            </div>
-          </div>
-        , { isDismissible: false, id: SYNCHRONIZE_TEMPLATE_NOTICE_ID });
+          __('The content of your post doesn\'t match the assigned template.', 'wp-gutenberg-templates'),
+          {
+            actions: [
+              { label: __('Keep it as is', 'wp-gutenberg-templates'), onClick: denySynchronization, className: 'is-link' },
+              { label: __('Reset the template', 'wp-gutenberg-templates'), onClick: confirmSynchronization, className: 'is-link' }
+            ],
+            isDismissible: false,
+            id: SYNCHRONIZE_TEMPLATE_NOTICE_ID
+          }
+        );
       }
     });
   }
