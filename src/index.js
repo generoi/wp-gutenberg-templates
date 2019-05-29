@@ -1,5 +1,4 @@
 import { select, subscribe, dispatch } from '@wordpress/data';
-import { Button } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import apiRequest from '@wordpress/apiRequest';
 import { synchronizeBlocksWithTemplate, doBlocksMatchTemplate } from '@wordpress/blocks';
@@ -74,10 +73,10 @@ class GutenbergTemplates {
           {
             actions: [
               { label: __('Keep it as is', 'wp-gutenberg-templates'), onClick: denySynchronization, className: 'is-link' },
-              { label: __('Reset the template', 'wp-gutenberg-templates'), onClick: confirmSynchronization, className: 'is-link' }
+              { label: __('Reset the template', 'wp-gutenberg-templates'), onClick: confirmSynchronization, className: 'is-link' },
             ],
             isDismissible: false,
-            id: SYNCHRONIZE_TEMPLATE_NOTICE_ID
+            id: SYNCHRONIZE_TEMPLATE_NOTICE_ID,
           }
         );
       }
