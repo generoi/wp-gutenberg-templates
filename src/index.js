@@ -39,9 +39,9 @@ class GutenbergTemplates {
   changeTemplate() {
     const { resetBlocks, editPost, updateEditorSettings } = dispatch('core/editor');
     const { createWarningNotice, removeNotice } = dispatch('core/notices');
-    const currentBlocks = select('core/editor').getBlocks();
 
     apiRequest({ path: '/gutenberg-templates/v1/template', data: {template: this.template} }).then(config => {
+      const currentBlocks = select('core/editor').getBlocks();
       const template = config.template;
       const templateLock = config.template_lock;
       const isValidTemplate = !currentBlocks.length || doBlocksMatchTemplate(currentBlocks, template);
