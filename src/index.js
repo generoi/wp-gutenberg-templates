@@ -18,13 +18,11 @@ class GutenbergTemplates {
     const newTemplate = select('core/editor').getEditedPostAttribute('template');
     // Not known yet
     if (newTemplate === undefined) {
-      console.log('template not known');
       return;
     }
 
     // This is the initial template on editor load
     if (this.template === undefined) {
-      console.log('initial template');
       this.template = newTemplate;
       if (this.template) {
         this.setInitialTemplate(this.template);
@@ -34,7 +32,6 @@ class GutenbergTemplates {
 
     // The template has changed
     if (newTemplate !== this.template) {
-      console.log('template has changed');
       this.previousTemplate = this.template;
       this.template = newTemplate;
 
@@ -46,7 +43,6 @@ class GutenbergTemplates {
 
       // We're setting the Default template.
       if (newTemplate === '') {
-        console.log('setting default template')
         const { updateSettings, setTemplateValidity } = dispatch('core/block-editor');
 
         updateSettings({templateLock: false});
@@ -77,7 +73,6 @@ class GutenbergTemplates {
   }
 
   changeTemplate(templateName) {
-    console.log('change template');
     const { resetBlocks, updateSettings } = dispatch('core/block-editor');
     const { createWarningNotice, removeNotice } = dispatch('core/notices');
 
@@ -92,13 +87,11 @@ class GutenbergTemplates {
       );
 
       const synchronizeTemplate = () => {
-        console.log(currentBlocks, template);
         resetBlocks(synchronizeBlocksWithTemplate(currentBlocks, template));
         updateSettings({ template, templateLock });
       };
 
       const denySynchronization = () => {
-        console.log('revert');
         // If it's a locked template, revert the setting.
         if (templateLock === 'all') {
           this.revertTemplate();
