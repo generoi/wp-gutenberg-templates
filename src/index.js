@@ -113,6 +113,7 @@ class GutenbergTemplates {
       // The template is valid, just synchronize it and set the lock.
       if (isBlocksValidToTemplate) {
         synchronizeTemplate();
+        return;
       }
 
       // Template is not valid, confirm what to do
