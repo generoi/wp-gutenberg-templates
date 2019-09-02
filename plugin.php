@@ -81,7 +81,7 @@ class Plugin
 
     public function validateTemplateFile(string $template)
     {
-        return !!preg_match('/^[a-zA-Z0-9-_\/]+\.php$/', $template);
+        return !!preg_match('/^[a-zA-Z0-9-_\/\.]+\.php$/', $template);
     }
 
     public function getTemplate(WP_REST_Request $request)
