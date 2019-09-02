@@ -24,6 +24,10 @@ class GutenbergTemplates {
     // This is the initial template on editor load
     if (this.template === undefined) {
       this.template = newTemplate;
+
+      this.defaultTemplate = select('core/block-editor').getTemplate();
+      this.defaultTemplateLock = select('core/block-editor').getTemplateLock();
+
       if (this.template) {
         this.setInitialTemplate(this.template);
       }
@@ -45,7 +49,7 @@ class GutenbergTemplates {
       if (newTemplate === '') {
         const { updateSettings, setTemplateValidity } = dispatch('core/block-editor');
 
-        updateSettings({templateLock: false});
+        updateSettings({templateLock: this.defaultTemplateLock, template: this.defaultTemplate});
         setTemplateValidity(true);
       }
     }
