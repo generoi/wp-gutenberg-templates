@@ -3,20 +3,20 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "X-Generator: babel-plugin-makepot\n"
 
-#: src/index.js:125
+#: src/index.js:104
 msgid ""
 "Resetting the template may result in loss of content, do you want to "
 "continue?"
 msgstr ""
 
-#: src/index.js:139
+#: src/index.js:118
 msgid "The content of your post doesn't match the assigned template."
 msgstr ""
 
-#: src/index.js:142
+#: src/index.js:121
 msgid "Keep it as is"
 msgstr ""
 
-#: src/index.js:143
+#: src/index.js:122
 msgid "Reset the template"
 msgstr ""

@@ -53,6 +53,7 @@ class Plugin
     public function init()
     {
         add_filter('theme_templates', [$this, 'templates'], 100, 4);
+        add_filter('block_editor_settings', [$this, 'blockEditorSettings'], 10, 2);
         add_action('rest_api_init', [$this, 'restApiEndpoints']);
         add_action('enqueue_block_editor_assets', [$this, 'block_editor_assets']);
         add_action('init', [$this, 'load_textdomain']);
@@ -66,6 +67,16 @@ class Plugin
             $templates[$file] = $name;
         }
         return $templates;
+    }
+
+    public function blockEditorSettings($settings, $post)
+    {
+        $templateName = get_page_template_slug($post);
+        if ($template = get_gutenberg_template_by_file($templateName)) {
+            $settings['template'] = $template['template'];
+            $settings['templateLock'] = $template['template_lock'];
+        }
+        return $settings;
     }
 
     public function restApiEndpoints()
