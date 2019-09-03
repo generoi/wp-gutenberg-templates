@@ -7,61 +7,82 @@ const SYNCHRONIZE_TEMPLATE_NOTICE_ID = 'SYNCHRONIZE_TEMPLATE_NOTICE_ID';
 
 class GutenbergTemplates {
   constructor() {
-    this.previousTemplate = null;
-    this.template = undefined;
+    this.previousTemplateName = null;
+    this.templateName = undefined;
+    this.settings = null;
 
     // Subscribe to changes
     subscribe(this.subscribe.bind(this));
   }
 
   subscribe() {
-    const newTemplate = select('core/editor').getEditedPostAttribute('template');
+    const { updateSettings, setTemplateValidity } = dispatch('core/block-editor');
+    const newTemplateName = select('core/editor').getEditedPostAttribute('template');
+    const template = select('core/block-editor').getTemplate();
+    const templateLock = select('core/block-editor').getTemplateLock();
+
     // Not known yet
-    if (newTemplate === undefined) {
+    if (newTemplateName === undefined) {
       return;
     }
 
+
     // This is the initial template on editor load
-    if (this.template === undefined) {
-      this.template = newTemplate;
+    if (this.templateName === undefined) {
+      this.templateName = newTemplateName;
 
-      this.defaultTemplate = select('core/block-editor').getTemplate();
-      this.defaultTemplateLock = select('core/block-editor').getTemplateLock();
+      // Store the original values in case we reset
+      this.defaultTemplate = template;
+      this.defaultTemplateLock = templateLock;
 
-      if (this.template) {
-        this.setInitialTemplate(this.template);
+      if (this.templateName) {
+        this.setInitialTemplate(this.templateName);
       }
       return;
     }
 
     // The template has changed
-    if (newTemplate !== this.template) {
-      this.previousTemplate = this.template;
-      this.template = newTemplate;
+    if (newTemplateName !== this.templateName) {
+      this.previousTemplateName = this.templateName;
+      this.templateName = newTemplateName;
 
       // An actual template was set
-      if (newTemplate) {
-        this.changeTemplate(this.template);
+      if (newTemplateName) {
+        this.changeTemplate(this.templateName);
         return;
       }
 
       // We're setting the Default template.
-      if (newTemplate === '') {
-        const { updateSettings, setTemplateValidity } = dispatch('core/block-editor');
+      if (newTemplateName === '') {
 
-        updateSettings({templateLock: this.defaultTemplateLock, template: this.defaultTemplate});
+        this.settings = {templateLock: this.defaultTemplateLock, template: this.defaultTemplate};
+
+        updateSettings(this.settings);
         setTemplateValidity(true);
       }
     }
+
+    // For some reason this gets overridden.
+    if (this.settings && (this.settings.template !== template || this.settings.templateLock !== templateLock)) {
+      updateSettings(this.settings);
+    }
+  }
+
+  getTemplate(templateName, callback) {
+    apiRequest({ path: '/gutenberg-templates/v1/template', data: {template: templateName} }).then(config => {
+      const template = config.template;
+      const templateLock = config.template_lock;
+
+      this.settings = {template, templateLock};
+
+      callback(this.settings);
+    });
   }
 
   setInitialTemplate(templateName) {
-    const { updateSettings, setTemplateValidity } = dispatch('core/block-editor');
-
-    apiRequest({ path: '/gutenberg-templates/v1/template', data: {template: templateName} }).then(config => {
+    this.getTemplate(templateName, ({template, templateLock}) => {
+      const { updateSettings, setTemplateValidity } = dispatch('core/block-editor');
       const currentBlocks = select('core/block-editor').getBlocks();
-      const template = config.template;
-      const templateLock = config.template_lock;
       const isBlocksValidToTemplate = (
         !template ||
         templateLock !== 'all' ||
@@ -77,14 +98,10 @@ class GutenbergTemplates {
   }
 
   changeTemplate(templateName) {
-    const { resetBlocks, updateSettings } = dispatch('core/block-editor');
-    const { createWarningNotice, removeNotice } = dispatch('core/notices');
-
-    apiRequest({ path: '/gutenberg-templates/v1/template', data: {template: templateName} }).then(config => {
+    this.getTemplate(templateName, ({template, templateLock}) => {
+      const { resetBlocks, updateSettings } = dispatch('core/block-editor');
+      const { createWarningNotice, removeNotice } = dispatch('core/notices');
       const currentBlocks = select('core/block-editor').getBlocks();
-      const template = config.template;
-      const templateLock = config.template_lock;
-
       const isBlocksValidToTemplate = (
         !template ||
         doBlocksMatchTemplate(currentBlocks, template)
@@ -132,7 +149,7 @@ class GutenbergTemplates {
   }
 
   revertTemplate() {
-    dispatch('core/editor').editPost({ template: this.previousTemplate });
+    dispatch('core/editor').editPost({ template: this.previousTemplateName });
   }
 }
 
