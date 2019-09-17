@@ -9,12 +9,16 @@ class GutenbergTemplates {
   constructor() {
     this.previousTemplateName = null;
     this.templateName = undefined;
+    this.template = null;
+    this.templateLock = null;
 
     // Subscribe to changes
     subscribe(this.subscribe.bind(this));
   }
 
   subscribe() {
+    const { getTemplate, getTemplateLock } = select('core/block-editor');
+    const { updateSettings, setTemplateValidity } = dispatch('core/block-editor');
     const newTemplateName = select('core/editor').getEditedPostAttribute('template');
 
     // Not known yet
@@ -41,9 +45,23 @@ class GutenbergTemplates {
 
       // We're setting the Default template.
       if (newTemplateName === '') {
-        const { updateSettings, setTemplateValidity } = dispatch('core/block-editor');
-        updateSettings({templateLock: false});
+        this.templateLock = false;
+        updateSettings({templateLock: this.templateLock});
         setTemplateValidity(true);
+      }
+    }
+
+    if (this.template !== null) {
+      const template = getTemplate();
+      if (this.template !== template) {
+        updateSettings({template: this.template});
+      }
+    }
+
+    if (this.templateLock !== null) {
+      const templateLock = getTemplateLock();
+      if (this.templateLock !== templateLock) {
+        updateSettings({templateLock: this.templateLock});
       }
     }
   }
@@ -54,24 +72,6 @@ class GutenbergTemplates {
       const templateLock = config.template_lock;
 
       callback({template, templateLock});
-    });
-  }
-
-  setInitialTemplate(templateName) {
-    this.getTemplate(templateName, ({template, templateLock}) => {
-      const { updateSettings, setTemplateValidity } = dispatch('core/block-editor');
-      const currentBlocks = select('core/block-editor').getBlocks();
-      const isBlocksValidToTemplate = (
-        !template ||
-        templateLock !== 'all' ||
-        doBlocksMatchTemplate(currentBlocks, template)
-      );
-
-      updateSettings({
-        templateLock,
-        template,
-      });
-      setTemplateValidity(isBlocksValidToTemplate);
     });
   }
 
@@ -88,6 +88,9 @@ class GutenbergTemplates {
       const synchronizeTemplate = () => {
         resetBlocks(synchronizeBlocksWithTemplate(currentBlocks, template));
         updateSettings({ template, templateLock });
+
+        this.template = template;
+        this.templateLock = templateLock;
       };
 
       const denySynchronization = () => {
