@@ -55,8 +55,9 @@ class Plugin
         add_filter('theme_templates', [$this, 'templates'], 100, 4);
         add_filter('block_editor_settings', [$this, 'blockEditorSettings'], 10, 2);
         add_action('rest_api_init', [$this, 'restApiEndpoints']);
-        add_action('enqueue_block_editor_assets', [$this, 'block_editor_assets']);
-        add_action('init', [$this, 'load_textdomain']);
+        add_action('enqueue_block_editor_assets', [$this, 'blockEditorAssets']);
+        add_action('init', [$this, 'loadTextdomain']);
+        add_action('debug_bar_panels', [$this, 'debugBar']);
     }
 
     public function templates($templates, $theme, $post, $post_type)
@@ -104,13 +105,21 @@ class Plugin
         return $template;
     }
 
-    public function block_editor_assets()
+    public function debugBar($panels)
+    {
+        // Cannot use namespaces and therefore no autoloading.
+        require_once __DIR__ . '/src/DebugBar.php';
+        $panels[] = new \GutenbergTemplates_DebugBar();
+        return $panels;
+    }
+
+    public function blockEditorAssets()
     {
         $this->enqueueScript("{$this->plugin_name}/js", 'dist/index.js', ['wp-editor', 'wp-data', 'wp-blocks', 'wp-components', 'wp-i18n', 'wp-api-request']);
         wp_set_script_translations("{$this->plugin_name}/js", $this->plugin_name);
     }
 
-    public function load_textdomain()
+    public function loadTextdomain()
     {
         // WP Performance Pack
         include __DIR__ . '/languages/javascript.php';
