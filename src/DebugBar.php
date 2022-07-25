@@ -1,21 +1,24 @@
 <?php
+// phpcs:ignoreFile PSR1.Classes.ClassDeclaration.MissingNamespace
 
 use Brick\VarExporter\VarExporter;
 
 class GutenbergTemplates_DebugBar extends Debug_Bar_Panel
 {
-    public function init()
+    protected ?WP_Post $post;
+
+    public function init(): void
     {
         $this->post = $this->postObject();
         $this->title('Block Template');
     }
 
-    public function prerender()
+    public function prerender(): void
     {
         $this->set_visible($this->post ? true : false);
     }
 
-    public function render()
+    public function render(): void
     {
         $output = VarExporter::export($this->blocks(), VarExporter::INLINE_NUMERIC_SCALAR_ARRAY);
         $output = apply_filters('wp-gutenberg-templates/debugbar/export', $output);
@@ -23,7 +26,7 @@ class GutenbergTemplates_DebugBar extends Debug_Bar_Panel
         echo "<pre>$output</pre>";
     }
 
-    protected function postObject()
+    protected function postObject(): ?WP_Post
     {
         $post_id = null;
 
@@ -43,10 +46,13 @@ class GutenbergTemplates_DebugBar extends Debug_Bar_Panel
         return $post_id ? get_post($post_id) : null;
     }
 
-    protected function blocks()
+    /**
+     * @return array<mixed>
+     */
+    protected function blocks(): array
     {
         if (!$this->post || !$this->post->post_content) {
-            return null;
+            return [];
         }
 
         $blocks = parse_blocks($this->post->post_content);
@@ -57,6 +63,10 @@ class GutenbergTemplates_DebugBar extends Debug_Bar_Panel
         return $blocks;
     }
 
+    /**
+     * @param array<string,mixed> $block
+     * @return ?array<mixed>
+     */
     protected function buildBlock($block)
     {
         if (!$block['blockName']) {
@@ -86,7 +96,11 @@ class GutenbergTemplates_DebugBar extends Debug_Bar_Panel
         return $value;
     }
 
-    protected function buildAttrs($block)
+    /**
+     * @param array<string,mixed> $block
+     * @return array<string,mixed>
+     */
+    protected function buildAttrs(array $block): array
     {
         $attrs = $block['attrs'];
 

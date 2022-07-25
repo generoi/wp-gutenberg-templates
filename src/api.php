@@ -1,6 +1,7 @@
 <?php
 
-function register_gutenberg_template($template_name, $args = [])
+/** @param array<string,mixed> $args */
+function register_gutenberg_template(string $template_name, array $args = []): void
 {
     global $wp_gutenberg_templates;
 
@@ -29,13 +30,19 @@ function register_gutenberg_template($template_name, $args = [])
     $wp_gutenberg_templates[$post_type][$template_name] = $args;
 }
 
-function get_gutenberg_templates($post_type)
+/**
+ * @return array<string,mixed>
+ */
+function get_gutenberg_templates(string $post_type): array
 {
     global $wp_gutenberg_templates;
     return $wp_gutenberg_templates[$post_type] ?? [];
 }
 
-function get_gutenberg_template($template)
+/**
+ * @return array<string,mixed>|null
+ */
+function get_gutenberg_template(string $template)
 {
     global $wp_gutenberg_templates;
     foreach ($wp_gutenberg_templates as $post_type => $templates) {
@@ -43,9 +50,13 @@ function get_gutenberg_template($template)
             return $templates[$template];
         }
     }
+    return null;
 }
 
-function get_gutenberg_template_by_file($template_file)
+/**
+ * @return array<string,mixed>|null
+ */
+function get_gutenberg_template_by_file(string $template_file): ?array
 {
     global $wp_gutenberg_templates;
     foreach ($wp_gutenberg_templates as $post_type => $templates) {
@@ -55,4 +66,6 @@ function get_gutenberg_template_by_file($template_file)
             }
         }
     }
+
+    return null;
 }
