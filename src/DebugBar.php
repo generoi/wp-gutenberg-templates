@@ -102,7 +102,7 @@ class GutenbergTemplates_DebugBar extends Debug_Bar_Panel
      */
     protected function buildAttrs(array $block): array
     {
-        $attrs = $block['attrs'];
+        $attrs = $block['attrs'] ?: [];
 
         if (isset($attrs['align']) && empty($attrs['align'])) {
             unset($attrs['align']);
