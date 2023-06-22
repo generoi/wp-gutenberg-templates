@@ -45,6 +45,9 @@ function get_gutenberg_templates(string $post_type): array
 function get_gutenberg_template(string $template)
 {
     global $wp_gutenberg_templates;
+    if (empty($wp_gutenberg_templates)) {
+        return null;
+    }
     foreach ($wp_gutenberg_templates as $post_type => $templates) {
         if (isset($templates[$template])) {
             return $templates[$template];
@@ -59,6 +62,9 @@ function get_gutenberg_template(string $template)
 function get_gutenberg_template_by_file(string $template_file): ?array
 {
     global $wp_gutenberg_templates;
+    if (empty($wp_gutenberg_templates)) {
+        return null;
+    }
     foreach ($wp_gutenberg_templates as $post_type => $templates) {
         foreach ($templates as $template => $args) {
             if ($args['template_file'] === $template_file) {
