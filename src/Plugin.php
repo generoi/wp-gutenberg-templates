@@ -7,6 +7,7 @@ use WP_REST_Server;
 use WP_REST_Request;
 use WP_Theme;
 use Debug_Bar_Panel;
+use WP_Block_Editor_Context;
 use WP_REST_Response;
 
 class Plugin
@@ -35,7 +36,7 @@ class Plugin
     public function init(): void
     {
         add_filter('theme_templates', [$this, 'templates'], 100, 4);
-        add_filter('block_editor_settings', [$this, 'blockEditorSettings'], 10, 2);
+        add_filter('block_editor_settings_all', [$this, 'blockEditorSettings'], 10, 2);
         add_action('rest_api_init', [$this, 'restApiEndpoints']);
         add_action('enqueue_block_editor_assets', [$this, 'blockEditorAssets']);
         add_action('init', [$this, 'loadTextdomain']);
@@ -60,12 +61,14 @@ class Plugin
      * @param array<string,mixed> $settings
      * @return array<string,mixed>
      */
-    public function blockEditorSettings(array $settings, WP_Post $post): array
+    public function blockEditorSettings(array $settings, WP_Block_Editor_Context $context): array
     {
-        $templateName = get_page_template_slug($post);
-        if ($template = get_gutenberg_template_by_file($templateName)) {
-            $settings['template'] = $template['template'];
-            $settings['templateLock'] = $template['template_lock'];
+        if ($context->post) {
+            $templateName = get_page_template_slug($context->post);
+            if ($template = get_gutenberg_template_by_file($templateName)) {
+                $settings['template'] = $template['template'];
+                $settings['templateLock'] = $template['template_lock'];
+            }
         }
         return $settings;
     }
