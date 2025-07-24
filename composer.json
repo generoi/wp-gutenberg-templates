@@ -16,16 +16,7 @@
   "support": {
     "issues": "https://github.com/generoi/wp-gutenberg-templates/issues"
   },
-  "repositories": [
-    {
-      "type": "composer",
-      "url": "https://wpackagist.org"
-    },
-    {
-      "type": "composer",
-      "url": "https://packagist.minasithil.genero.fi/"
-    }
-  ],
+  "repositories": [],
   "require": {
     "php": ">=5.6.0",
     "brick/varexporter": "^0.3"
