@@ -52,7 +52,7 @@
     "@wordpress/babel-plugin-makepot": "^1.0.1",
     "@wordpress/i18n": "^1.1.1",
     "babel-preset-react": "^6.24.1",
-    "eslint": "^4.19.0",
+    "eslint": "^9.32.0",
     "eslint-plugin-genero": "git+https://github.com/generoi/eslint-plugin-genero.git",
     "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-react": "^7.10.0",
