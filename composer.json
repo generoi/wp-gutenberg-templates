@@ -19,7 +19,7 @@
   "repositories": [],
   "require": {
     "php": ">=5.6.0",
-    "brick/varexporter": "^0.3"
+    "brick/varexporter": "^0.3.7|^0.4|^0.5|^0.6|^0.7"
   },
   "require-dev": {
     "squizlabs/php_codesniffer": "^3.0",

@@ -20,7 +20,7 @@ class GutenbergTemplates_DebugBar extends Debug_Bar_Panel
 
     public function render(): void
     {
-        $output = VarExporter::export($this->blocks(), VarExporter::INLINE_NUMERIC_SCALAR_ARRAY);
+        $output = VarExporter::export($this->blocks(), VarExporter::INLINE_SCALAR_LIST);
         $output = apply_filters('wp-gutenberg-templates/debugbar/export', $output);
         $output = str_replace(['<', '>'], ['&lt;', '&gt;'], $output);
         echo "<pre>$output</pre>";
